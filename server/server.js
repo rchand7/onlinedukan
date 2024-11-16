@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 
+// Import routes
 import authRouter from "./routes/auth/auth-routes.js";
 import adminProductsRouter from "./routes/admin/products-routes.js";
 import adminOrderRouter from "./routes/admin/order-routes.js";
@@ -20,18 +21,22 @@ import shopReviewRouter from "./routes/shop/review-routes.js";
 
 import commonFeatureRouter from "./routes/common/feature-routes.js";
 
+// Initialize app
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// MongoDB connection (removed deprecated options)
+// MongoDB connection
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.error("MongoDB connection error:", error));
 
 // CORS configuration
 const corsOptions = {
-  origin: 'http://localhost:5000', // Frontend dev URL
+  origin: process.env.CLIENT_URL || 'http://localhost:5000', // Frontend dev URL
   credentials: true,
   methods: ["GET", "POST", "DELETE", "PUT"],
   allowedHeaders: [
@@ -42,9 +47,9 @@ const corsOptions = {
     "Pragma",
   ],
 };
-
 app.use(cors(corsOptions));
 
+// Middleware
 app.use(cookieParser());
 app.use(express.json());
 
@@ -62,7 +67,7 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
-// Serve static files from the React app
+// Serve static files (React build)
 app.use(express.static(path.join(process.cwd(), "../client/dist")));
 
 // Serve index.html for any unmatched routes
@@ -70,7 +75,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(process.cwd(), "../client/dist", "index.html"));
 });
 
-// Fallback for undefined routes (optional)
+// Fallback for undefined routes
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });
