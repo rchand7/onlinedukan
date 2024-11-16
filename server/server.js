@@ -19,7 +19,7 @@ const shopReviewRouter = require("./routes/shop/review-routes");
 const commonFeatureRouter = require("./routes/common/feature-routes");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; // Define PORT once
 
 // MongoDB connection (removed deprecated options)
 mongoose
@@ -28,20 +28,20 @@ mongoose
   .catch((error) => console.error("MongoDB connection error:", error));
 
 // CORS configuration
-app.use(
-  cors({
-    origin: process.env.NODE_ENV === "production" ? "https://your-deployed-client-url.com" : "http://localhost:5173",
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Cache-Control",
-      "Expires",
-      "Pragma",
-    ],
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: 'https://rozgar-yyt2.onrender.com', // Frontend dev URL
+  credentials: true,
+  methods: ["GET", "POST", "DELETE", "PUT"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "Cache-Control",
+    "Expires",
+    "Pragma",
+  ],
+};
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 app.use(express.json());
@@ -60,16 +60,13 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
-// Serve static files in production (React app)
-if (process.env.NODE_ENV === "production") {
-  // Set static folder to the correct location
-  app.use(express.static(path.join(__dirname, "../client/dist")));
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
-  // Serve index.html for any unmatched routes
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
-  });
-}
+// Serve index.html for any unmatched routes
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+});
 
 // Fallback for undefined routes (optional)
 app.use((req, res, next) => {
