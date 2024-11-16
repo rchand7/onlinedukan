@@ -4,11 +4,11 @@
   "description": "Backend for the Ecommerce app",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon server/server.js",    // Starting the server with nodemon
-    "build": "cd client && npm run build",  // Builds the React frontend
-    "client": "cd client && npm start",    // Starts the React frontend in a separate process
-    "dev": "concurrently \"npm run client\" \"npm run start\"",  // Runs both client and server simultaneously during development
-    "server": "npm run start"              // Just for starting the server in production
+    "start": "nodemon server/server.js",
+    "build": "cd client && npm run build",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run client\" \"npm run start\"",
+    "server": "npm run start"
   },
   "author": "Rohit Chand",
   "license": "ISC",
@@ -26,6 +26,6 @@
     "paypal-rest-sdk": "^1.8.1"
   },
   "devDependencies": {
-    "concurrently": "^8.0.0"  // Added for concurrent running of frontend and backend
+    "concurrently": "^8.0.0"
   }
 }
