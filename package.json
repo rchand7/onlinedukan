@@ -5,9 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server/server.js", 
-    "build": "npm install && npm install --prefix client && npm run build --prefix client", 
-    "start": "nodemon server/server.js", 
+    "dev": "nodemon server/server.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client",
+    "start": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -31,5 +31,8 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@vitejs/plugin-react": "^4.3.3",
     "nodemon": "^3.1.7"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
