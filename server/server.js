@@ -31,7 +31,7 @@ mongoose
 
 // CORS configuration
 const corsOptions = {
-  origin: 'https://rozgar-yyt2.onrender.com', // Frontend dev URL
+  origin: 'http://localhost:5000', // Frontend dev URL
   credentials: true,
   methods: ["GET", "POST", "DELETE", "PUT"],
   allowedHeaders: [
