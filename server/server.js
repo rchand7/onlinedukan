@@ -1,25 +1,27 @@
-require("dotenv").config(); // Import dotenv to access environment variables
-const express = require("express");
-const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const path = require("path");
+import dotenv from "dotenv";
+dotenv.config(); // Import dotenv to access environment variables
 
-const authRouter = require("./routes/auth/auth-routes");
-const adminProductsRouter = require("./routes/admin/products-routes");
-const adminOrderRouter = require("./routes/admin/order-routes");
+import express from "express";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import path from "path";
 
-const shopProductsRouter = require("./routes/shop/products-routes");
-const shopCartRouter = require("./routes/shop/cart-routes");
-const shopAddressRouter = require("./routes/shop/address-routes");
-const shopOrderRouter = require("./routes/shop/order-routes");
-const shopSearchRouter = require("./routes/shop/search-routes");
-const shopReviewRouter = require("./routes/shop/review-routes");
+import authRouter from "./routes/auth/auth-routes.js";
+import adminProductsRouter from "./routes/admin/products-routes.js";
+import adminOrderRouter from "./routes/admin/order-routes.js";
 
-const commonFeatureRouter = require("./routes/common/feature-routes");
+import shopProductsRouter from "./routes/shop/products-routes.js";
+import shopCartRouter from "./routes/shop/cart-routes.js";
+import shopAddressRouter from "./routes/shop/address-routes.js";
+import shopOrderRouter from "./routes/shop/order-routes.js";
+import shopSearchRouter from "./routes/shop/search-routes.js";
+import shopReviewRouter from "./routes/shop/review-routes.js";
+
+import commonFeatureRouter from "./routes/common/feature-routes.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Define PORT once
+const PORT = process.env.PORT || 5000;
 
 // MongoDB connection (removed deprecated options)
 mongoose
@@ -61,11 +63,11 @@ app.use("/api/shop/review", shopReviewRouter);
 app.use("/api/common/feature", commonFeatureRouter);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static(path.join(process.cwd(), "../client/dist")));
 
 // Serve index.html for any unmatched routes
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/dist", "index.html"));
+  res.sendFile(path.resolve(process.cwd(), "../client/dist", "index.html"));
 });
 
 // Fallback for undefined routes (optional)
