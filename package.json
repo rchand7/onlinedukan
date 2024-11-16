@@ -2,14 +2,15 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Backend for the Ecommerce app",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
-    "dev": "nodemon server/server.js",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client",
-    "start": "nodemon server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server/server.js",    // Starting the server with nodemon
+    "build": "cd client && npm run build",  // Builds the React frontend
+    "client": "cd client && npm start",    // Starts the React frontend in a separate process
+    "dev": "concurrently \"npm run client\" \"npm run start\"",  // Runs both client and server simultaneously during development
+    "server": "npm run start"              // Just for starting the server in production
   },
-  "author": "sangam mukherjee",
+  "author": "Rohit Chand",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -25,6 +26,6 @@
     "paypal-rest-sdk": "^1.8.1"
   },
   "devDependencies": {
-    "vite": "^5.4.11"
+    "concurrently": "^8.0.0"  // Added for concurrent running of frontend and backend
   }
 }
